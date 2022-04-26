@@ -12,6 +12,7 @@ public interface MiddlemanService {
 
     @GET
     @Path("/start")
+    @Produces(MediaType.TEXT_PLAIN)
     String getNextResource();
 
 }
