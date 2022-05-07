@@ -28,11 +28,11 @@ public class RandomCallService {
         this.serviceCollection = serviceCollection;
         this.seed = seed;
         this.countServices = serviceCollection.getServiceURLs().size();
-        this.random = new Random(seed);
+        random = new Random(seed);
     }
 
-    public Response callRandomService(int ttl) {
-        return getRandomService().getNextResource(ttl);
+    public void callRandomService(int ttl) {
+        getRandomService().getNextResource(ttl);
     }
 
     public MiddlemanService getRandomService() {
@@ -49,6 +49,8 @@ public class RandomCallService {
     }
 
     public int getRandomNr() {
-        return random.nextInt(countServices);                                                       // returns values of interval [0 ; #services-1]
+        return random.nextInt(countServices);                                           // returns values of interval [0 ; #services-1]
     }
+
+
 }
