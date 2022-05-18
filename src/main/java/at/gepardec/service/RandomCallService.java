@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 import java.net.URI;
 import java.util.Random;
+import java.util.UUID;
 
 @Dependent
 public class RandomCallService {
@@ -31,8 +32,8 @@ public class RandomCallService {
         random = new Random(seed);
     }
 
-    public void callRandomService(int ttl) {
-        getRandomService().getNextResource(ttl);
+    public void callRandomService(int ttl, UUID transactionID) {
+        getRandomService().getNextResource(ttl, transactionID);
     }
 
     public MiddlemanService getRandomService() {
