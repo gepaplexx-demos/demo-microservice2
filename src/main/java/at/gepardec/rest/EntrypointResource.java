@@ -36,8 +36,6 @@ public class EntrypointResource {
     @Inject
     ServiceCollector serviceCollector;
 
-    RandomCallService randomCallService = new RandomCallService(serviceCollector.getServiceURLs(), seed);
-
     @GET
     @Path("/service")
     @Counted(name = "performedCalls", description = "How often the service has been called.")
@@ -57,10 +55,7 @@ public class EntrypointResource {
         if (ttl > 0) {
             Log.info("TransactionID: " + transactionID.toString() + " - Calling Random service #" + ++count);
             Log.info("ttl: " + (ttl - 1));
-            randomCallService.callRandomService(--ttl, transactionID);
-
-            Log.info("TransactionID: " + transactionID.toString() + " - Calling Random service #" + ++count);
-            Log.info("ttl2: " + (ttl - 1));
+            RandomCallService randomCallService = new RandomCallService(serviceCollector.getServiceURLs(), seed);
             randomCallService.callRandomService(--ttl, transactionID);
         } else {
             Log.info("Stopping RandomCallService...");
