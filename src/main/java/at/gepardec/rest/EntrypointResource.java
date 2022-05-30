@@ -31,8 +31,6 @@ public class EntrypointResource {
     @ConfigProperty(name = "microservices.seed")
     Long seed;
 
-    int count = 0;
-
     @Inject
     ServiceCollector serviceCollector;
 
@@ -46,20 +44,19 @@ public class EntrypointResource {
             throws InterruptedException {
 
         Thread.sleep(idletime);
-        Log.info("Service 2 requesting call of next Service #" + ++count);
+        Log.info("Service 2 requesting call of next Service");
         Log.info("ttl_service: " + ttl);
         callRandomService(ttl, transactionID);
     }
 
     public void callRandomService(int ttl, UUID transactionID) {
         if (ttl > 0) {
-            Log.info("TransactionID: " + transactionID.toString() + " - Calling Random service #" + ++count);
+            Log.info("TransactionID: " + transactionID.toString() + " - Calling Random service");
             Log.info("ttl: " + (ttl - 1));
             RandomCallService randomCallService = new RandomCallService(serviceCollector.getServiceURLs(), seed);
             randomCallService.callRandomService(--ttl, transactionID);
         } else {
             Log.info("Stopping RandomCallService...");
-            //return Response.status(200).entity("Random Call-Service stopped...").build();
         }
 
     }
