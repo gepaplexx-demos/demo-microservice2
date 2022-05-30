@@ -9,7 +9,7 @@ import org.jboss.logging.Logger;
 
 @Liveness
 @ApplicationScoped
-public class LifenessCheck implements HealthCheck {
+public class LivenessCheck implements HealthCheck {
 
     @Inject
     Logger Log;

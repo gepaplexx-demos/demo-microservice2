@@ -13,7 +13,7 @@ public class ServiceCollector {
     @Inject
     Logger Log;
 
-    @ConfigProperty(name = "microservices.env.variables")
+    @ConfigProperty(name = "microservices.urls")
     List<String> serviceUrls;
 
     public ServiceCollector() {
