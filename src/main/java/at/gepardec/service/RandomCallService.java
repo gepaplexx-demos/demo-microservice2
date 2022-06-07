@@ -17,9 +17,9 @@ public class RandomCallService {
 
     List<String> serviceCollection;
 
-    public RandomCallService(List<String> serviceCollection, Long seed) {
+    public RandomCallService(List<String> serviceCollection, Random random) {
         this.serviceCollection = serviceCollection;
-        random = new Random(seed);
+        this.random = random;
     }
 
     public void callRandomService(int ttl, UUID transactionID) {
