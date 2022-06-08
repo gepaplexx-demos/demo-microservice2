@@ -47,9 +47,7 @@ public class EntrypointResource {
                 Log.info("[" + transactionID.toString() + "]" + " Stopping OrderedCallService...\n\n");
                 return;
         }
-
         Log.info("[" + transactionID.toString() + "]" + " - Calling next Service");
-
         orderedCallService.callServiceBySequence(orderSequence, transactionID);
     }
 }

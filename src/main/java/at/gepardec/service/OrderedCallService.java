@@ -89,7 +89,6 @@ public class OrderedCallService {
 
     private void makeDelay() {
         try {
-            Log.info("Attempting delay: " + idletime);
             Thread.sleep(idletime);
         } catch (InterruptedException e) {
             Log.error("makeDelay was interrupted");

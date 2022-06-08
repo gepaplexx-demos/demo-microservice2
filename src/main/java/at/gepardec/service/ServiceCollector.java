@@ -10,9 +10,6 @@ import java.util.List;
 @Dependent
 public class ServiceCollector {
 
-    @Inject
-    Logger Log;
-
     @ConfigProperty(name = "microservices.urls")
     List<String> serviceUrls;
 
