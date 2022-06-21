@@ -19,6 +19,7 @@ public class ReadinessCheck implements HealthCheck {
     @Override
     public HealthCheckResponse call() {
         Log.info("Calling Readiness-Check: ");
+        Log.info("Test");
         return HealthCheckResponse.up("Service2");
     }
 }
