@@ -4,13 +4,9 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import org.jboss.logging.Logger;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.context.RequestScoped;
 import java.net.URI;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 public class OrderedCallService {
 
@@ -27,10 +23,10 @@ public class OrderedCallService {
         this.serviceCollection = serviceCollection;
     }
 
-    public void callServiceBySequence(String orderSequence, UUID transactionID) {
+    public void callServiceBySequence(String orderSequence) {
         this.orderSequence = orderSequence;
         int actionSymbol = parseOrderSequence();
-        chooseActionBySymbol(actionSymbol, transactionID);
+        chooseActionBySymbol(actionSymbol);
     }
 
     private int parseOrderSequence() {
@@ -39,7 +35,7 @@ public class OrderedCallService {
         return actionSymbol;
     }
 
-    private void chooseActionBySymbol(int actionSymbol, UUID transactionID) {
+    private void chooseActionBySymbol(int actionSymbol) {
         ServiceAction serviceAction = ServiceAction.values()[actionSymbol];
         switch (serviceAction) {
             case OK1:
@@ -76,7 +72,7 @@ public class OrderedCallService {
             default:
                 return;
         }
-        callService(actionSymbol / 5, transactionID);
+        callService(actionSymbol / 5);
     }
 
     private void validateForError(int probability) {
@@ -95,10 +91,10 @@ public class OrderedCallService {
         }
     }
 
-    private void callService(int serviceNr, UUID transactionID) {
+    private void callService(int serviceNr) {
         String url = getUrl(serviceNr);
         Log.info("Next Service: " + url);
-        getService(url).getNextResourceBySequence(orderSequence, transactionID);
+        getService(url).getNextResourceBySequence(orderSequence);
     }
 
     public MiddlemanService getService(String url) {
@@ -112,9 +108,9 @@ public class OrderedCallService {
         return serviceCollection.get(idx);
     }
 
-    public void sendStopNotifications(UUID transactionID) {
+    public void sendStopNotifications() {
         for (String url : serviceCollection) {
-            getService(url).getNextResourceBySequence("-", transactionID);
+            getService(url).getNextResourceBySequence("-");
         }
     }
 

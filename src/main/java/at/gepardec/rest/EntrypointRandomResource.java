@@ -17,7 +17,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.util.Random;
-import java.util.UUID;
 
 @Path("/call")
 @ApplicationScoped
@@ -47,22 +46,21 @@ public class EntrypointRandomResource {
     @Counted(name = "performedCalls", description = "How often the service has been called.")
     @Timed(name = "callsTimer", description = "A measure of how long it takes to perform the complete call.", unit = MetricUnits.MILLISECONDS)
     @Produces(MediaType.TEXT_PLAIN)
-    public void callNextService(@QueryParam("ttl") int ttl,
-                                @QueryParam("transactionID") UUID transactionID)
+    public void callNextService(@QueryParam("ttl") int ttl)
             throws InterruptedException {
 
         Thread.sleep(idletime);
         Log.info("Service 2 requesting call of next Service");
         Log.info("ttl_service: " + ttl);
-        callRandomService(ttl, transactionID);
+        callRandomService(ttl);
     }
 
-    public void callRandomService(int ttl, UUID transactionID) {
+    public void callRandomService(int ttl) {
         if (ttl > 0) {
-            Log.info("TransactionID: " + transactionID.toString() + " - Calling Random service");
+            Log.info("Calling Random service");
             Log.info("ttl: " + (ttl - 1));
             RandomCallService randomCallService = new RandomCallService(serviceCollector.getServiceURLs(), random);
-            randomCallService.callRandomService(--ttl, transactionID);
+            randomCallService.callRandomService(--ttl);
         } else {
             Log.info("Stopping RandomCallService...");
         }

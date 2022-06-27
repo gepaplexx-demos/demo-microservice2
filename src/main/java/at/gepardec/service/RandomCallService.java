@@ -6,7 +6,6 @@ import org.jboss.logging.Logger;
 import java.net.URI;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 
 public class RandomCallService {
@@ -22,7 +21,7 @@ public class RandomCallService {
         this.random = random;
     }
 
-    public void callRandomService(int ttl, UUID transactionID) {
+    public void callRandomService(int ttl) {
         getService(getRandomUrl()).getNextResource(ttl, transactionID);
     }
 

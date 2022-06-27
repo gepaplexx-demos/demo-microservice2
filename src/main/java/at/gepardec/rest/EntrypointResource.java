@@ -14,8 +14,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
-import java.util.UUID;
 
 @Path("/call")
 @ApplicationScoped
@@ -32,22 +30,21 @@ public class EntrypointResource {
     @Counted(name = "performedCalls", description = "How often the service has been called.")
     @Timed(name = "callsTimer", description = "A measure of how long it takes to perform the complete call.", unit = MetricUnits.MILLISECONDS)
     @Produces(MediaType.TEXT_PLAIN)
-    public void callNextService(@QueryParam("sequence") String sequence,
-                                @QueryParam("transactionID") UUID transactionID) {
-        processRequest(sequence, transactionID);
+    public void callNextService(@QueryParam("sequence") String sequence) {
+        processRequest(sequence);
     }
 
-    public void processRequest(String orderSequence, UUID transactionID) {
+    public void processRequest(String orderSequence) {
         OrderedCallService orderedCallService = new OrderedCallService(serviceCollector.getServiceURLs());
         switch (orderSequence) {
             case "":                                                                                // empty sequence => Stop CAllservice and
-                orderedCallService.sendStopNotifications(transactionID);                            // send stop notifications to all other services
+                orderedCallService.sendStopNotifications();                            // send stop notifications to all other services
                 return;
             case "-":                                                                               // received stop notification
-                Log.info("[" + transactionID.toString() + "]" + " Stopping OrderedCallService...\n\n");
+                Log.info("Stopping OrderedCallService...\n\n");
                 return;
         }
-        Log.info("[" + transactionID.toString() + "]" + " - Calling next Service");
-        orderedCallService.callServiceBySequence(orderSequence, transactionID);
+        Log.info("Calling next Service");
+        orderedCallService.callServiceBySequence(orderSequence);
     }
 }
