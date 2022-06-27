@@ -22,7 +22,7 @@ public class RandomCallService {
     }
 
     public void callRandomService(int ttl) {
-        getService(getRandomUrl()).getNextResource(ttl, transactionID);
+        getService(getRandomUrl()).getNextResource(ttl);
     }
 
     public MiddlemanService getService(String url) {
