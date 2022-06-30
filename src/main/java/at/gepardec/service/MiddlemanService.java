@@ -23,5 +23,5 @@ public interface MiddlemanService {
     @GET
     @Path("/call/serviceBySequence")
     @Produces(MediaType.TEXT_PLAIN)
-    Response getNextResourceBySequence(@QueryParam("sequence") String sequence);
+    void getNextResourceBySequence(@QueryParam("sequence") String sequence);
 }
