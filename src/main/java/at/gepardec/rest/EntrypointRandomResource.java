@@ -1,7 +1,6 @@
 package at.gepardec.rest;
 
 import at.gepardec.service.RandomCallService;
-import at.gepardec.service.ServiceCollector;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.metrics.MetricUnits;
 import org.eclipse.microprofile.metrics.annotation.Counted;
@@ -16,6 +15,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 import java.util.Random;
 
 @Path("/call")
@@ -33,8 +33,8 @@ public class EntrypointRandomResource {
 
     Random random;
 
-    @Inject
-    ServiceCollector serviceCollector;
+    @ConfigProperty(name = "microservices.urls")
+    List<String> serviceUrls;
 
     @PostConstruct
     void initRandom() {
@@ -59,7 +59,7 @@ public class EntrypointRandomResource {
         if (ttl > 0) {
             Log.info("Calling Random service");
             Log.info("ttl: " + (ttl - 1));
-            RandomCallService randomCallService = new RandomCallService(serviceCollector.getServiceURLs(), random);
+            RandomCallService randomCallService = new RandomCallService(serviceUrls, random);
             randomCallService.callRandomService(--ttl);
         } else {
             Log.info("Stopping RandomCallService...");

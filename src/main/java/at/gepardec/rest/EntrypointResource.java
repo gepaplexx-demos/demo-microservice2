@@ -1,7 +1,7 @@
 package at.gepardec.rest;
 
 import at.gepardec.service.OrderedCallService;
-import at.gepardec.service.ServiceCollector;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.metrics.MetricUnits;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.metrics.annotation.Timed;
@@ -14,6 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 @Path("/call")
 @ApplicationScoped
@@ -22,8 +23,11 @@ public class EntrypointResource {
     @Inject
     Logger Log;
 
-    @Inject
-    ServiceCollector serviceCollector;
+    @ConfigProperty(name = "microservices.urls")
+    List<String> serviceUrls;
+
+    @ConfigProperty(name = "microservices.idletime")
+    int idletime;
 
     @GET
     @Path("/serviceBySequence")
@@ -36,7 +40,8 @@ public class EntrypointResource {
 
     public void processRequest(String orderSequence) {
         Log.info("Sequence: " + orderSequence);
-        OrderedCallService orderedCallService = new OrderedCallService(serviceCollector.getServiceURLs());
+        OrderedCallService orderedCallService = new OrderedCallService(serviceUrls, idletime);
+        Log.info("after new OrderedCallService" + serviceUrls.get(0));
         switch (orderSequence) {
             case "":                                                                                // empty sequence => Stop CAllservice and
                 orderedCallService.sendStopNotifications();                            // send stop notifications to all other services

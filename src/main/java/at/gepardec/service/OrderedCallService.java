@@ -16,11 +16,11 @@ public class OrderedCallService {
 
     List<String> serviceCollection;
 
-    @ConfigProperty(name = "microservices.idletime")
     int idletime;
 
-    public OrderedCallService(List<String> serviceCollection) {
+    public OrderedCallService(List<String> serviceCollection, int idletime) {
         this.serviceCollection = serviceCollection;
+        this.idletime = idletime;
     }
 
     public void callServiceBySequence(String orderSequence) {
