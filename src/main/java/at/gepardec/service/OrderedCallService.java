@@ -93,7 +93,7 @@ public class OrderedCallService {
 
     private void callService(int serviceNr) {
         String url = getUrl(serviceNr);
-        Log.info("Next Service: " + url);
+        Log.info(" Next Service: " + url);
         getService(url).getNextResourceBySequence(orderSequence);
     }
 
