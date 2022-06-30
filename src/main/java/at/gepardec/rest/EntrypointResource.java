@@ -35,6 +35,7 @@ public class EntrypointResource {
     }
 
     public void processRequest(String orderSequence) {
+        Log.info("Sequence: " + orderSequence);
         OrderedCallService orderedCallService = new OrderedCallService(serviceCollector.getServiceURLs());
         switch (orderSequence) {
             case "":                                                                                // empty sequence => Stop CAllservice and
