@@ -23,10 +23,6 @@ public class ReadinessCheck implements HealthCheck {
 
     @Override
     public HealthCheckResponse call() {
-        Log.info("Calling Readiness-Check: ");
-        Log.info("Test");
-        Log.info("CPu-Usage: " + osBean.getProcessCpuLoad());
-        Log.info("CPu-Usage_System: " + osBean.getSystemLoadAverage());
         return HealthCheckResponse.up("Service2");
     }
 }
